@@ -1,26 +1,17 @@
-let mapleader = " "
-syntax enable
-set number
-set relativenumber
+
+set nu
+set rnu
+syntax on
+set clipboard=unnamed
 set tabstop=4
 set shiftwidth=4
 set expandtab
+
 call plug#begin()
-"Plug 'vim-airline/vim-airline' added manually
-Plug 'tpope/vim-commentary'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/vim-lsp-settings'
+Plug 'tpope/vim-commentary'
 call plug#end()
-if executable('pylsp')
-    " pip install python-lsp-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pylsp',
-        \ 'cmd': {server_info->['pylsp']},
-        \ 'allowlist': ['python'],
-        \ })
-endif
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -50,15 +41,8 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
-set clipboard=unnamed
-noremap <C-F> :CtrlP<CR>
+
+
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
-
-set termguicolors
-color desert
-let g:airline_theme='deus'
-noremap <leader>t :echo "leader works!"<CR>
-let g:lsp_diagnostics_enabled = 0         " disable diagnostics support
+let g:lsp_diagnostics_enabled = 0 "" makes "no pygame" popup go away
